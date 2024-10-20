@@ -87,7 +87,7 @@ const App = () => {
     }
   }, [isAlarmPlaying]);
 
-  const pauseAlarm = () => {
+  const stopAlarm = () => {
     setIsAlarmPlaying(false);
     setIsResting(false);
     setRestingMillis(0);
@@ -161,10 +161,12 @@ const App = () => {
           <TouchableOpacity
             style={[
               styles.button,
-              !isWorking && !isResting && styles.buttonDisabled,
+              workingMillis === 0 &&
+                restingMillis === 0 &&
+                styles.buttonDisabled,
             ]}
             onPress={restartTimers}
-            disabled={!isWorking && !isResting}
+            disabled={workingMillis === 0 && restingMillis === 0}
           >
             <Text style={styles.buttonText}>Reset</Text>
           </TouchableOpacity>
@@ -185,7 +187,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      {isAlarmPlaying && <Button title="Stop Alarm" onPress={pauseAlarm} />}
+      {isAlarmPlaying && <Button title="Stop Alarm" onPress={stopAlarm} />}
       {!isAlarmPlaying && getTimersView()}
     </View>
   );
